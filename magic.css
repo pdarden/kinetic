@@ -1,0 +1,10 @@
+#container {
+  border: 4px black solid;
+  height: 100%;
+  width: 100%;
+}
+
+#container {
+  background: url('images/t-shirts.jpg') no-repeat;
+  background-size: 700px 700px;
+}
