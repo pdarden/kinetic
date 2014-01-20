@@ -1,0 +1,15 @@
+#container {
+  border: 4px black solid;
+  height: 800px;
+  width: 100%;
+}
+
+#container {
+  background: url('images/t-shirts.jpg') no-repeat;
+  background-size: 700px 700px;
+}
+
+#container canvas{
+  position: relative;
+  margin-left: 200px;
+}

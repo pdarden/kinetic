@@ -1,18 +1,21 @@
 $(function(){
   loadImages(sources, populateBadges);
+
+  $('#container canvas').css({
+    "position": "relative",
+    "left": "130px",
+    "top": "132px"
+  });
 });
 
-function makeImage(){
-
-}
 
 var sources = { bigcheese: '../images/bigcheese.png',
                orgman: '../images/orgman.png',
            		describer: '../images/describer.png'};
 var stage = new Kinetic.Stage({
 container: 'container',
-  width: 700,
-  height: 700
+  width: 443,
+  height: 500
 });
 
 var badgeStage = new Kinetic.Stage({
@@ -72,20 +75,29 @@ function addBadgesToStage(){
 	badgeLayer.draw();
 }
 
-layer.on('dragend', function(e){
-	var image = e.dragEndNode;
-	magicImage(image, e);
-})
-badgeLayer.on('dragend', function(e){
-	var image = e.dragEndNode;
-	magicImage(image, e);
+layer.on('dblclick', function(e){
+	magicImage(e.targetNode);
 })
 
-function magicImage(image, e){
-    if (e.y > stage.getHeight() || e.x > stage.getWidth()){
+layer.on('dragend', function(e){
+  snapToGrid(e.targetNode);
+})
+
+badgeLayer.on('dblclick', function(e){
+	magicImage(e.targetNode);
+})
+
+function snapToGrid(image){
+  image.setX(Math.floor(image.getX()/75)*75 +40);
+  image.setY(Math.floor(image.getY()/75)*75 +80);
+  drawLayers();
+}
+
+function magicImage(image){
+    if (image.parent.parent.container().id == 'container'){
       resetImage(image);
       removeImage(image);
-    } else if(image.parent.parent.container().id == 'badges' && (e.y <= stage.getHeight() || e.x <= stage.getWidth())){
+    } else if(image.parent.parent.container().id == 'badges'){
       resetImage(image);
       addImage(image);
     }
@@ -117,7 +129,8 @@ function magicImage(image, e){
   function makeImage(){
   	stage.toImage({
   		callback: function(image){
-  			debugger;
+        console.log(image);
+        $('#photo').html(image);
   		}
   	})
   }
